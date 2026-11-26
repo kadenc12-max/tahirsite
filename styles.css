@@ -254,23 +254,57 @@ a:hover { color: inherit; }
 .btn-ghost, .btn-ghost:hover { border: 1px solid var(--strong-border); color: var(--stage-text); }
 .btn-email { min-height: 52px; max-width: 100%; overflow-wrap: anywhere; }
 
-/* ---------- Stats ---------- */
-.stats {
+/* ---------- Stats: broadcast ticker ---------- */
+.ticker {
+  display: flex;
+  align-items: stretch;
+  background-color: var(--surface);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  background-color: var(--surface);
   transition: background-color var(--t);
 }
-.stats-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 3rem 1.25rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 2rem;
+.tk-badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  background-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+.ticker .marquee { flex: 1; min-width: 0; padding: 1.1rem 0; }
+.marquee {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.track { display: flex; width: max-content; animation: marquee var(--dur, 30s) linear infinite; }
+.group { display: flex; align-items: center; flex-shrink: 0; }
+.marquee:hover .track { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+.tk-item { display: inline-flex; align-items: center; gap: .75rem; padding: 0 1.75rem; white-space: nowrap; }
+.tk-num { font-family: var(--head-font); font-weight: var(--head-weight); font-size: 1.9rem; line-height: 1; color: var(--accent-text); }
+.tk-label { color: var(--box-text); }
+.tk-sep { width: 6px; height: 6px; border-radius: 50%; background-color: var(--accent); opacity: .7; flex-shrink: 0; }
+.stat-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-text);
+  background-color: var(--box-bg);
+  border: 1px solid var(--box-border);
 }
 .stat-num { font-family: var(--head-font); font-size: 2.6rem; font-weight: var(--head-weight); line-height: 1.1; color: var(--accent-text); }
-.stat-label { display: inline-block; margin-top: .5rem; padding: .35rem .8rem; border-radius: 12px; font-size: .95rem; }
 
 /* ---------- Sections ---------- */
 .sec { max-width: 1160px; margin: 0 auto; padding: 7rem 1.25rem; }
@@ -407,9 +441,46 @@ a.pill { text-decoration: none; transition: border-color .2s; }
 a.pill:hover { color: var(--box-text); border-color: var(--accent); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-.skills { margin-top: 3.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
-.skills-label { font-weight: 700; margin-right: .5rem; width: 100%; }
-.chip { padding: .5rem 1rem; border-radius: 999px; border: 1px solid var(--border); font-size: .9rem; }
+/* Skills: two wheels that tick over out of step */
+.skills { margin-top: 3.5rem; }
+.skills-label { margin: 0 0 1rem; font-size: 1rem; font-weight: 700; font-family: var(--body-font); }
+.wheels { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 1.25rem; }
+.wheel-card { padding: .75rem 1.25rem; border-radius: 20px; border: 1px solid var(--border); background-color: var(--surface); }
+.wheel {
+  --row: 64px;
+  position: relative;
+  height: calc(var(--row) * 3);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+}
+.wheel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--row);
+  height: var(--row);
+  border-radius: 14px;
+  border: 1px solid var(--box-border);
+  background-color: var(--box-bg);
+  pointer-events: none;
+}
+.wh-col { position: relative; }
+.wh-row {
+  height: var(--row);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-family: var(--head-font);
+  font-weight: var(--head-weight);
+  font-size: 1.75rem;
+  letter-spacing: var(--head-track);
+  text-transform: var(--head-case);
+  white-space: nowrap;
+}
+@keyframes wheel4{0.00%,20.00%{transform:translateY(calc(var(--row) * 0))}25.00%,45.00%{transform:translateY(calc(var(--row) * -1))}50.00%,70.00%{transform:translateY(calc(var(--row) * -2))}75.00%,95.00%{transform:translateY(calc(var(--row) * -3))}100%{transform:translateY(calc(var(--row) * -4))}}
+@keyframes wheel3{0.00%,26.67%{transform:translateY(calc(var(--row) * 0))}33.33%,60.00%{transform:translateY(calc(var(--row) * -1))}66.67%,93.33%{transform:translateY(calc(var(--row) * -2))}100%{transform:translateY(calc(var(--row) * -3))}}
 
 /* ---------- Contact ---------- */
 .contact {
@@ -435,6 +506,9 @@ a:focus-visible, button:focus-visible, .reel:focus-visible {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {
+  .tk-badge { padding: 0 .8rem; font-size: .7rem; max-width: 6.5rem; line-height: 1.3; }
+  .tk-num { font-size: 1.5rem; }
+  .wh-row { font-size: 1.45rem; }
   .navlinks { order: 3; width: 100%; justify-content: space-between; gap: 1rem; padding-bottom: .75rem; }
   .headshot { width: 101px; height: 101px; }
   .hero { padding-top: 2.5rem; padding-bottom: 3.5rem; }
@@ -450,4 +524,13 @@ a:focus-visible, button:focus-visible, .reel:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .beam, .rise, .pool { animation: none !important; }
   html { scroll-behavior: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none; width: auto; }
+  .group + .group { display: none; }
+  .group { flex-wrap: wrap; row-gap: .75rem; }
+  .marquee { -webkit-mask-image: none; mask-image: none; }
+  .wh-col { animation: none !important; }
+  .wheel { overflow-y: auto; -webkit-mask-image: none; mask-image: none; }
 }
