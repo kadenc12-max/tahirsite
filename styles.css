@@ -535,12 +535,29 @@ a.pill:hover { color: var(--box-text); border-color: var(--accent); }
 }
 .board-cat.is-changing { opacity: 0; }
 .board-rows { display: flex; flex-direction: column; gap: 8px; }
-.board-row { display: grid; grid-template-columns: repeat(var(--cols, 20), minmax(0, 1fr)); gap: 3px; }
-.board-row.next-skill { margin-top: 6px; }
+.board-row { display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: 3px; }
+/* Phones: one whole-word flap panel per skill instead of letter tiles */
+.board-rows.is-panels { perspective: 600px; }
+.board-panel {
+  display: flex;
+  align-items: center;
+  min-height: 3.6rem;
+  padding: .55rem 1rem;
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #1d2636 0 49%, #0b111c 49% 51%, #161e2c 51%);
+  color: #f8f3e6;
+  font-family: var(--head-font);
+  font-weight: var(--head-weight);
+  font-size: 1.6rem;
+  line-height: 1.1;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  transform-origin: 50% 50%;
+  transition: transform .18s ease-in, color .18s;
+}
+.board-panel.flap-out { transform: rotateX(-90deg); color: #f5c451; }
 @media (max-width: 560px) {
   .board { padding: 1rem .9rem 1.1rem; }
-  .board-rows { gap: 5px; }
-  .cell { font-size: 1.05rem; }
 }
 .cell {
   aspect-ratio: 3 / 4;

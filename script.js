@@ -34,10 +34,11 @@
     });
   });
 
-  // Departure board: every few seconds both rows scramble and land on the
-  // next related pair of skills. Pairs live in the board's data-pairs.
-  // On phones the board uses 12 tiles per row and wraps each skill onto two
-  // lines so the tiles stay big enough to read.
+  // Departure board: every few seconds the board lands on the next related
+  // pair of skills. Pairs live in the board's data-pairs.
+  // Wide screens: 20 split-flap letter tiles per row that scramble into place.
+  // Phones: one whole-word flap panel per skill that flips over, which reads
+  // far more easily than tiny letter tiles.
   var board = document.querySelector('.board[data-pairs]');
   if (board) {
     var pairs = JSON.parse(board.dataset.pairs);
@@ -46,53 +47,39 @@
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var narrow = window.matchMedia('(max-width: 560px)');
     var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ&';
+    var COLS = 20;
     var current = 0, paused = false, rows = [];
 
-    // Split a skill into the lines it occupies: one line wide, two lines narrow.
-    var linesFor = function (text) {
-      if (!narrow.matches) return [text];
-      var out = [''];
-      text.split(' ').forEach(function (word) {
-        var last = out[out.length - 1];
-        if (!last) out[out.length - 1] = word;
-        else if ((last + ' ' + word).length <= 12) out[out.length - 1] = last + ' ' + word;
-        else out.push(word);
-      });
-      while (out.length < 2) out.push('');
-      return out.slice(0, 2);
-    };
-
     var build = function () {
-      var cols = narrow.matches ? 12 : 20;
-      var perSkill = narrow.matches ? 2 : 1;
-      rowsBox.style.setProperty('--cols', cols);
+      var p = pairs[current];
       rowsBox.replaceChildren();
       rows = [];
-      for (var r = 0; r < perSkill * 2; r++) {
+      rowsBox.classList.toggle('is-panels', narrow.matches);
+      [p[1], p[2]].forEach(function (skill) {
         var row = document.createElement('div');
-        row.className = 'board-row' + (r === perSkill ? ' next-skill' : '');
-        for (var c = 0; c < cols; c++) {
-          var cell = document.createElement('span');
-          cell.className = 'cell';
-          cell.textContent = ' ';
-          row.appendChild(cell);
+        if (narrow.matches) {
+          row.className = 'board-panel';
+          row.textContent = skill;
+        } else {
+          row.className = 'board-row';
+          var t = skill.toUpperCase();
+          for (var c = 0; c < COLS; c++) {
+            var cell = document.createElement('span');
+            cell.className = 'cell';
+            cell.textContent = t.charAt(c) && t.charAt(c) !== ' ' ? t.charAt(c) : ' ';
+            row.appendChild(cell);
+          }
         }
         rowsBox.appendChild(row);
         rows.push(row);
-      }
-      var p = pairs[current];
-      var lines = linesFor(p[1]).concat(linesFor(p[2]));
-      rows.forEach(function (row, i) {
-        var t = (lines[i] || '').toUpperCase();
-        for (var c = 0; c < row.children.length; c++) row.children[c].textContent = t.charAt(c) && t.charAt(c) !== ' ' ? t.charAt(c) : ' ';
       });
     };
 
-    var flipRow = function (row, text, delay) {
+    var scrambleRow = function (row, text, delay) {
       var cells = row.children, target = text.toUpperCase();
       for (var i = 0; i < cells.length; i++) {
         (function (cell, ch, ticks) {
-          var final = ch === ' ' ? '\u00a0' : ch;
+          var final = ch === ' ' ? ' ' : ch;
           if (reduce) { cell.textContent = final; return; }
           setTimeout(function () {
             var n = 0;
@@ -106,22 +93,37 @@
       }
     };
 
+    var flipPanel = function (panel, text, delay) {
+      if (reduce) { panel.textContent = text; return; }
+      setTimeout(function () {
+        panel.classList.add('flap-out');
+        setTimeout(function () {
+          panel.textContent = text;
+          panel.classList.remove('flap-out');
+        }, 180);
+      }, delay);
+    };
+
     var showNext = function () {
-      if (paused) return;
-      current = (current + 1) % pairs.length;
-      var p = pairs[current];
-      cat.classList.add('is-changing');
-      setTimeout(function () { cat.textContent = p[0]; cat.classList.remove('is-changing'); }, 250);
-      var lines = linesFor(p[1]).concat(linesFor(p[2]));
-      var half = lines.length / 2;
-      rows.forEach(function (row, i) { flipRow(row, lines[i] || '', i < half ? 0 : 250); });
+      if (!paused) {
+        current = (current + 1) % pairs.length;
+        var p = pairs[current];
+        cat.classList.add('is-changing');
+        setTimeout(function () { cat.textContent = p[0]; cat.classList.remove('is-changing'); }, 250);
+        [p[1], p[2]].forEach(function (skill, i) {
+          if (rows[i].classList.contains('board-panel')) flipPanel(rows[i], skill, i * 160);
+          else scrambleRow(rows[i], skill, i * 250);
+        });
+      }
+      // Phones get a little longer on each pair.
+      setTimeout(showNext, narrow.matches ? 5000 : 4200);
     };
 
     build();
     if (narrow.addEventListener) narrow.addEventListener('change', build);
     board.addEventListener('mouseenter', function () { paused = true; });
     board.addEventListener('mouseleave', function () { paused = false; });
-    setInterval(showNext, 4200);
+    setTimeout(showNext, narrow.matches ? 5000 : 4200);
   }
 
   var year = document.querySelector('.year');
