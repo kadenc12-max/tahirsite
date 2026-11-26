@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skills Options – Tahir Russell</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Anton&amp;family=JetBrains+Mono:wght@700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <script src="script.js" defer></script>
+  <style>
+    .test-intro { max-width: 1160px; margin: 0 auto; padding: 3.5rem 1.25rem 1rem; }
+    .test-intro p { margin: .75rem 0 0; max-width: 680px; color: var(--box-text); }
+    .options { max-width: 1160px; margin: 0 auto; padding: 0 1.25rem 6rem; }
+    .option { margin-top: 3.5rem; }
+    .option-label { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .option-label strong { font-size: 1.05rem; }
+    .option-label span { color: var(--box-text); font-size: .9rem; }
+    .option-note { margin: 1rem 0 0; font-size: .9rem; color: var(--box-text); max-width: 760px; }
+    
+    .reel3d { max-width: 640px; margin: 0 auto; padding: 1.25rem; border-radius: 24px; border: 1px solid var(--border); background-color: var(--surface); }
+    .reel3d-window {
+      position: relative; height: 260px; perspective: 900px; overflow: hidden; border-radius: 16px;
+      background: linear-gradient(to bottom, rgba(0,0,0,.35), transparent 30%, transparent 70%, rgba(0,0,0,.35)), var(--box-bg);
+      border: 1px solid var(--box-border);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+              mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+    }
+    .drum {
+      position: absolute; left: 0; right: 0; top: 50%; height: 64px; margin-top: -32.0px;
+      transform-style: preserve-3d;
+      animation: drum 25.2s cubic-bezier(.45,0,.2,1.25) infinite;
+    }
+    .face {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      transform: rotateX(calc(var(--i) * -25.7143deg)) translateZ(140.2px);
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      font-family: var(--head-font); font-weight: var(--head-weight); font-size: 2.1rem;
+      letter-spacing: var(--head-track); text-transform: var(--head-case); white-space: nowrap;
+    }
+    .reel3d-pay {
+      position: absolute; left: 10px; right: 10px; top: 50%; height: 64px; margin-top: -32.0px;
+      border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent); border-radius: 6px;
+      box-shadow: 0 0 30px var(--glow); pointer-events: none;
+    }
+    @keyframes drum{0.000%,5.571%{transform:rotateX(0.0000deg)}7.143%,12.714%{transform:rotateX(25.7143deg)}14.286%,19.857%{transform:rotateX(51.4286deg)}21.429%,27.000%{transform:rotateX(77.1429deg)}28.571%,34.143%{transform:rotateX(102.8571deg)}35.714%,41.286%{transform:rotateX(128.5714deg)}42.857%,48.429%{transform:rotateX(154.2857deg)}50.000%,55.571%{transform:rotateX(180.0000deg)}57.143%,62.714%{transform:rotateX(205.7143deg)}64.286%,69.857%{transform:rotateX(231.4286deg)}71.429%,77.000%{transform:rotateX(257.1429deg)}78.571%,84.143%{transform:rotateX(282.8571deg)}85.714%,91.286%{transform:rotateX(308.5714deg)}92.857%,98.429%{transform:rotateX(334.2857deg)}100%{transform:rotateX(360.0000deg)}}
+
+    
+    .board { max-width: 760px; margin: 0 auto; padding: 1.25rem 1.25rem 1.5rem; border-radius: 20px; background: #0b111c; border: 1px solid #1f2d40; box-shadow: inset 0 0 40px rgba(0,0,0,.5); }
+    .board-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .9rem; color: #f5c451; font-weight: 700; font-size: .75rem; letter-spacing: .18em; text-transform: uppercase; }
+    .board-dot { width: 8px; height: 8px; border-radius: 50%; background: #f5c451; box-shadow: 0 0 10px #f5c451; animation: flicker 3s linear infinite; }
+    .board-rows { display: flex; flex-direction: column; gap: 8px; }
+    .board-row { display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: 3px; }
+    .cell {
+      position: relative; aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center;
+      border-radius: 4px; background: linear-gradient(to bottom, #1d2636 0 49%, #0b111c 49% 51%, #161e2c 51%);
+      color: #f8f3e6; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-weight: 700;
+      font-size: clamp(.7rem, 2.6vw, 1.45rem); line-height: 1;
+    }
+    .cell.flip { color: #f5c451; }
+
+    
+    .sign { position: relative; max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; border-radius: 22px; background-color: var(--stage-bg); border: 2px solid var(--accent); box-shadow: 0 0 40px var(--glow); text-align: center; }
+    .sign::before { content: ""; position: absolute; inset: 9px; border-radius: 15px; border: 4px dotted var(--accent); pointer-events: none; animation: bulbs 1s steps(2) infinite; }
+    @keyframes bulbs { 0% { opacity: 1 } 100% { opacity: .45 } }
+    .sign-title { margin: 0 0 1.1rem; font-weight: 700; font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent-text); }
+    .sign-words { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .5rem 1.1rem; }
+    .sw {
+      font-family: var(--head-font); font-weight: var(--head-weight); font-size: clamp(1.5rem, 4vw, 2.4rem);
+      letter-spacing: var(--head-track); text-transform: var(--head-case); line-height: 1.15;
+      color: var(--stage-text); opacity: .38;
+      animation: lit 10.5s ease-in-out infinite;
+    }
+    .sw-dot { width: 7px; height: 7px; border-radius: 50%; background-color: var(--accent); opacity: .6; }
+    @keyframes lit {
+      0% { opacity: .38; color: var(--stage-text); text-shadow: none }
+      2.14% { opacity: 1; color: var(--accent-text); text-shadow: 0 0 22px var(--glow) }
+      12.14% { opacity: 1; color: var(--accent-text); text-shadow: 0 0 22px var(--glow) }
+      14.29%, 100% { opacity: .38; color: var(--stage-text); text-shadow: none }
+    }
+
+    
+    .orbit-wrap { overflow: hidden; padding: 1rem 0; }
+    .orbit { --r: 190px; position: relative; width: min(520px, 100%); aspect-ratio: 1; margin: 0 auto; }
+    .orb-ring { position: absolute; inset: 0; animation: spin 50s linear infinite; }
+    .orb-ring::before { content: ""; position: absolute; left: 50%; top: 50%; width: calc(var(--r) * 2); height: calc(var(--r) * 2); transform: translate(-50%, -50%); border-radius: 50%; border: 1px dashed var(--box-border); }
+    .orb-slot { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform: rotate(var(--a)) translateX(var(--r)) rotate(calc(var(--a) * -1)); }
+    .orb-pos { position: absolute; transform: translate(-50%, -50%); }
+    .orb-chip {
+      display: inline-block; white-space: nowrap; padding: .55rem 1.1rem; border-radius: 999px;
+      background-color: var(--surface); border: 1px solid var(--box-border); color: var(--text);
+      font-weight: 500; box-shadow: 0 6px 20px rgba(0,0,0,.18);
+      animation: spin 50s linear infinite reverse;
+      transition: border-color .2s, color .2s;
+    }
+    .orb-chip:hover { border-color: var(--accent); color: var(--accent-text); }
+    .orb-core {
+      position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; transform: translate(-50%, -50%);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; text-align: center;
+      font-family: var(--head-font); font-weight: var(--head-weight); font-size: 1.5rem; line-height: 1.05;
+      text-transform: var(--head-case); letter-spacing: var(--head-track); color: var(--accent-text);
+      background: radial-gradient(circle, var(--box-bg), transparent 70%);
+      border: 2px solid var(--accent); box-shadow: 0 0 0 8px var(--ring), 0 0 50px var(--glow);
+    }
+    .orbit:hover .orb-ring, .orbit:hover .orb-chip { animation-play-state: paused; }
+    @keyframes spin { to { transform: rotate(360deg) } }
+    @media (max-width: 640px) {
+      .orbit { --r: 122px; }
+      .orb-chip { font-size: .72rem; padding: .35rem .7rem; white-space: normal; width: max-content; max-width: 9em; text-align: center; line-height: 1.15; border-radius: 14px; }
+      .orb-core { width: 104px; height: 104px; font-size: 1.05rem; }
+    }
+
+    @media (max-width: 640px) {
+      .face { font-size: 1.5rem; }
+      .reel3d { padding: .75rem; }
+      .sign { padding: 2rem 1.25rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .drum, .sw, .orb-ring, .orb-chip, .sign::before, .board-dot { animation: none !important; }
+      .sw { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">TAHIR RUSSELL</a>
+      <div class="navlinks"><a class="navlink" href="index.html">← Back to homepage</a></div>
+      <button class="theme-toggle" type="button" aria-label="Toggle light and dark theme">Light mode</button>
+    </div>
+  </nav>
+
+  <header class="test-intro">
+    <p class="eyebrow">Test page</p>
+    <h1 class="h2">Skills options</h1>
+    <p>Four new takes on the Skills &amp; tools block at the bottom of Experience, replacing the two flat wheels. Hover the orbit to pause it. Visitors who turn off animation in their system settings get a still version.</p>
+  </header>
+
+  <main class="options">
+    
+    <article class="option">
+      <div class="option-label"><strong>1. 3D slot reel</strong><span>A real spinning cylinder</span></div>
+      
+<div class="reel3d">
+  <ul class="sr-only"><li>Media Buying</li><li>Scriptwriting</li><li>Client Management</li><li>Campaign Strategy</li><li>Nielsen</li><li>LexisNexis</li><li>Talent Coordination</li></ul>
+  <div class="reel3d-window" aria-hidden="true">
+    <div class="drum"><div class="face" style="--i:0">Media Buying</div><div class="face" style="--i:1">Scriptwriting</div><div class="face" style="--i:2">Client Management</div><div class="face" style="--i:3">Campaign Strategy</div><div class="face" style="--i:4">Nielsen</div><div class="face" style="--i:5">LexisNexis</div><div class="face" style="--i:6">Talent Coordination</div><div class="face" style="--i:7">Media Buying</div><div class="face" style="--i:8">Scriptwriting</div><div class="face" style="--i:9">Client Management</div><div class="face" style="--i:10">Campaign Strategy</div><div class="face" style="--i:11">Nielsen</div><div class="face" style="--i:12">LexisNexis</div><div class="face" style="--i:13">Talent Coordination</div></div>
+    <div class="reel3d-pay"></div>
+  </div>
+</div>
+      <p class="option-note">One reel that turns like a slot machine, with a little overshoot as it lands each skill in the gold pay line. The skills wrap around a true 3D drum, so the ones above and below tilt away.</p>
+    </article>
+    
+    <article class="option">
+      <div class="option-label"><strong>2. Departure board</strong><span>Split-flap letters, two rows</span></div>
+      
+<div class="board">
+  <ul class="sr-only"><li>Media Buying</li><li>Scriptwriting</li><li>Client Management</li><li>Campaign Strategy</li><li>Nielsen</li><li>LexisNexis</li><li>Talent Coordination</li></ul>
+  <div class="board-head" aria-hidden="true"><span>Skills &amp; tools</span><span class="board-dot"></span></div>
+  <div class="board-rows" aria-hidden="true"><div class="board-row" data-start="0"><span class="cell">M</span><span class="cell">E</span><span class="cell">D</span><span class="cell">I</span><span class="cell">A</span><span class="cell">&nbsp;</span><span class="cell">B</span><span class="cell">U</span><span class="cell">Y</span><span class="cell">I</span><span class="cell">N</span><span class="cell">G</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span></div><div class="board-row" data-start="3"><span class="cell">C</span><span class="cell">A</span><span class="cell">M</span><span class="cell">P</span><span class="cell">A</span><span class="cell">I</span><span class="cell">G</span><span class="cell">N</span><span class="cell">&nbsp;</span><span class="cell">S</span><span class="cell">T</span><span class="cell">R</span><span class="cell">A</span><span class="cell">T</span><span class="cell">E</span><span class="cell">G</span><span class="cell">Y</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span><span class="cell">&nbsp;</span></div></div>
+</div>
+      <p class="option-note">Two rows of split-flap tiles, like an airport or train board. Every few seconds a row scrambles through letters and lands on the next skill, with the rows taking turns. It stays dark in light mode, like a real board.</p>
+    </article>
+    
+    <article class="option">
+      <div class="option-label"><strong>3. Marquee sign</strong><span>All skills visible, lights hop across</span></div>
+      
+<div class="sign">
+  <p class="sign-title">Skills &amp; tools</p>
+  <div class="sign-words"><span class="sw" style="animation-delay:0.0s">Media Buying</span><span class="sw-dot" aria-hidden="true"></span><span class="sw" style="animation-delay:1.5s">Scriptwriting</span><span class="sw-dot" aria-hidden="true"></span><span class="sw" style="animation-delay:3.0s">Client Management</span><span class="sw-dot" aria-hidden="true"></span><span class="sw" style="animation-delay:4.5s">Campaign Strategy</span><span class="sw-dot" aria-hidden="true"></span><span class="sw" style="animation-delay:6.0s">Nielsen</span><span class="sw-dot" aria-hidden="true"></span><span class="sw" style="animation-delay:7.5s">LexisNexis</span><span class="sw-dot" aria-hidden="true"></span><span class="sw" style="animation-delay:9.0s">Talent Coordination</span></div>
+</div>
+      <p class="option-note">Every skill is on show at once, framed by blinking bulbs like a theater marquee, and the light jumps from one to the next. Visitors can read the whole list at a glance, which the other options don’t allow.</p>
+    </article>
+    
+    <article class="option">
+      <div class="option-label"><strong>4. Orbit</strong><span>Skills circle a gold hub</span></div>
+      
+<div class="orbit-wrap">
+  <ul class="sr-only"><li>Media Buying</li><li>Scriptwriting</li><li>Client Management</li><li>Campaign Strategy</li><li>Nielsen</li><li>LexisNexis</li><li>Talent Coordination</li></ul>
+  <div class="orbit" aria-hidden="true">
+    <div class="orb-ring"><div class="orb-slot" style="--a:0.000deg"><div class="orb-pos"><span class="orb-chip">Media Buying</span></div></div><div class="orb-slot" style="--a:51.429deg"><div class="orb-pos"><span class="orb-chip">Scriptwriting</span></div></div><div class="orb-slot" style="--a:102.857deg"><div class="orb-pos"><span class="orb-chip">Client Management</span></div></div><div class="orb-slot" style="--a:154.286deg"><div class="orb-pos"><span class="orb-chip">Campaign Strategy</span></div></div><div class="orb-slot" style="--a:205.714deg"><div class="orb-pos"><span class="orb-chip">Nielsen</span></div></div><div class="orb-slot" style="--a:257.143deg"><div class="orb-pos"><span class="orb-chip">LexisNexis</span></div></div><div class="orb-slot" style="--a:308.571deg"><div class="orb-pos"><span class="orb-chip">Talent Coordination</span></div></div></div>
+    <div class="orb-core">Skills<br>&amp; tools</div>
+  </div>
+</div>
+      <p class="option-note">A literal wheel: the skills ride a slow ring around a gold “Skills & tools” hub and stay upright as they go. It echoes the gold ring around his headshot.</p>
+    </article>
+  </main>
+</div>
+<script>
+  (function () {
+    var skills = ["Media Buying","Scriptwriting","Client Management","Campaign Strategy","Nielsen","LexisNexis","Talent Coordination"];
+    var rows = document.querySelectorAll('.board-row');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!rows.length || reduce) return;
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ&';
+    function show(row, text) {
+      var cells = row.children, target = text.toUpperCase();
+      for (var i = 0; i < cells.length; i++) {
+        (function (cell, ch, ticks) {
+          var n = 0;
+          var t = setInterval(function () {
+            if (n++ >= ticks) { clearInterval(t); cell.textContent = ch === ' ' ? '\u00a0' : ch; cell.classList.remove('flip'); return; }
+            cell.classList.add('flip');
+            cell.textContent = chars[Math.floor(Math.random() * chars.length)];
+          }, 45);
+        })(cells[i], target[i] || ' ', 4 + Math.floor(Math.random() * 10) + i);
+      }
+    }
+    rows.forEach(function (row, r) {
+      var idx = +row.dataset.start;
+      setTimeout(function () {
+        setInterval(function () { idx = (idx + 1) % skills.length; show(row, skills[idx]); }, 3600);
+      }, r * 1800);
+    });
+  })();
+</script>
+</body>
+</html>

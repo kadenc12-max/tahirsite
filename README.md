@@ -11,6 +11,7 @@ Plain HTML, CSS and JavaScript with no build step. Open `index.html` in a browse
 | `script.js` | Light/dark toggle (remembered per visitor) and the footer year |
 | `fonts.html` | Test page comparing heading/body font pairings |
 | `stats.html` | Test page comparing animated designs for the stats strip |
+| `skills.html` | Test page comparing animated designs for the skills block |
 | `headshot.jpg` | Hero photo, cropped square (480×480) for the circular frame |
 
 ## Changing the font
