@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stats Options – Tahir Russell</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Anton&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <script src="script.js" defer></script>
+  <style>
+    .test-intro { max-width: 1160px; margin: 0 auto; padding: 3.5rem 1.25rem 1rem; }
+    .test-intro p { margin: .75rem 0 0; max-width: 680px; color: var(--box-text); }
+    .option { margin: 2.5rem 0 0; }
+    .option-label { max-width: 1160px; margin: 0 auto; padding: 0 1.25rem .9rem; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .option-label strong { font-size: 1.05rem; }
+    .option-label span { color: var(--box-text); font-size: .9rem; }
+    .option-note { max-width: 1160px; margin: .9rem auto 0; padding: 0 1.25rem; font-size: .9rem; color: var(--box-text); }
+    .option:last-of-type { padding-bottom: 6rem; }
+
+    /* ---------- shared marquee ---------- */
+    .marquee {
+      position: relative;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+              mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    }
+    .track { display: flex; width: max-content; animation: marquee var(--dur, 30s) linear infinite; }
+    .track.reverse { animation-direction: reverse; }
+    .group { display: flex; align-items: center; flex-shrink: 0; }
+    .marquee:hover .track { animation-play-state: paused; }
+    @keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+    .stat-icon {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--accent-text);
+      background-color: var(--box-bg);
+      border: 1px solid var(--box-border);
+    }
+
+    /* ---------- A: ticker ---------- */
+    .ticker {
+      display: flex; align-items: stretch;
+      background-color: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .tk-badge {
+      flex-shrink: 0;
+      display: flex; align-items: center;
+      padding: 0 1.25rem;
+      background-color: var(--accent);
+      color: var(--on-accent);
+      font-weight: 700; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+      position: relative; z-index: 1;
+    }
+    .ticker .marquee { flex: 1; min-width: 0; padding: 1.1rem 0; }
+    .tk-item { display: inline-flex; align-items: center; gap: .75rem; padding: 0 1.75rem; white-space: nowrap; }
+    .tk-num { font-family: var(--head-font); font-weight: var(--head-weight); font-size: 1.9rem; line-height: 1; color: var(--accent-text); }
+    .tk-label { color: var(--box-text); }
+    .tk-sep { width: 6px; height: 6px; border-radius: 50%; background-color: var(--accent); opacity: .7; }
+
+    /* ---------- B: double marquee ---------- */
+    .dmarq {
+      display: flex; flex-direction: column; gap: 1rem;
+      padding: 2.25rem 0;
+      background-color: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .dm-card {
+      display: flex; align-items: center; gap: .9rem;
+      margin-right: 1rem;
+      padding: 1rem 1.4rem 1rem 1rem;
+      border-radius: 18px;
+      white-space: nowrap;
+    }
+    .dm-num { font-family: var(--head-font); font-weight: var(--head-weight); font-size: 2rem; line-height: 1.05; color: var(--accent-text); }
+    .dm-label { font-size: .92rem; }
+    .dm-chip { padding: .5rem 1.1rem; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; font-size: .95rem; }
+    .dm-star { margin: 0 1rem; width: 6px; height: 6px; border-radius: 50%; background-color: var(--accent); opacity: .7; flex-shrink: 0; }
+
+    /* ---------- C: twin wheels ---------- */
+    .wheels {
+      max-width: 1160px; margin: 0 auto; padding: 0 1.25rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); gap: 1.25rem;
+    }
+    .wheel-card {
+      padding: 1.5rem 1.5rem 1.25rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+    }
+    .wheel {
+      position: relative;
+      height: calc(var(--row) * 3);
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+              mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+    }
+    .wheel::before {
+      content: ""; position: absolute; left: 0; right: 0;
+      top: var(--row); height: var(--row);
+      border-top: 1px solid var(--box-border); border-bottom: 1px solid var(--box-border);
+      border-radius: 14px;
+      background-color: var(--box-bg);
+      pointer-events: none;
+    }
+    .wh-col { position: relative; }
+    .wh-row { height: var(--row); display: flex; align-items: center; gap: .9rem; padding: 0 .75rem; }
+    .wh-num { font-family: var(--head-font); font-weight: var(--head-weight); font-size: 2.2rem; line-height: 1; color: var(--accent-text); flex: 0 0 3em; }
+    .wh-label { color: var(--box-text); line-height: 1.3; }
+    .wh-skill { font-family: var(--head-font); font-weight: var(--head-weight); font-size: 1.9rem; text-transform: var(--head-case); letter-spacing: var(--head-track); }
+    @keyframes wheelStats{0.00%,16.00%{transform:translateY(calc(var(--row) * 0))}20.00%,36.00%{transform:translateY(calc(var(--row) * -1))}40.00%,56.00%{transform:translateY(calc(var(--row) * -2))}60.00%,76.00%{transform:translateY(calc(var(--row) * -3))}80.00%,96.00%{transform:translateY(calc(var(--row) * -4))}100%{transform:translateY(calc(var(--row) * -5))}}
+    @keyframes wheelSkills{0.00%,11.43%{transform:translateY(calc(var(--row) * 0))}14.29%,25.71%{transform:translateY(calc(var(--row) * -1))}28.57%,40.00%{transform:translateY(calc(var(--row) * -2))}42.86%,54.29%{transform:translateY(calc(var(--row) * -3))}57.14%,68.57%{transform:translateY(calc(var(--row) * -4))}71.43%,82.86%{transform:translateY(calc(var(--row) * -5))}85.71%,97.14%{transform:translateY(calc(var(--row) * -6))}100%{transform:translateY(calc(var(--row) * -7))}}
+
+    @media (max-width: 640px) {
+      .tk-badge { padding: 0 .8rem; font-size: .7rem; max-width: 6.5rem; line-height: 1.3; }
+      .tk-num { font-size: 1.5rem; }
+      .wheel-card { padding: 1.25rem 1rem 1rem; }
+      .wh-row { gap: .6rem; padding: 0 .5rem; }
+      .wh-row .stat-icon { width: 34px; height: 34px; }
+      .wh-num { font-size: 1.6rem; }
+      .wh-label { font-size: .85rem; line-height: 1.25; }
+      .wh-skill { font-size: 1.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .track { animation: none; flex-wrap: wrap; width: auto; }
+      .group + .group { display: none; }
+      .group { flex-wrap: wrap; row-gap: .75rem; padding: 0 1.25rem; }
+      .marquee { -webkit-mask-image: none; mask-image: none; }
+      .wh-col { animation: none !important; }
+      .wheel { overflow-y: auto; -webkit-mask-image: none; mask-image: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">TAHIR RUSSELL</a>
+      <div class="navlinks">
+        <a class="navlink" href="index.html">← Back to homepage</a>
+      </div>
+      <button class="theme-toggle" type="button" aria-label="Toggle light and dark theme">Light mode</button>
+    </div>
+  </nav>
+
+  <header class="test-intro">
+    <p class="eyebrow">Test page</p>
+    <h1 class="h2">Stats options</h1>
+    <p>Three animated takes on the stats strip that sits between the hero and Experience, each with an icon per stat. Hover a scrolling row to pause it. Visitors who turn off animation in their system settings get a still version.</p>
+  </header>
+
+  <main>
+    
+  <article class="option">
+    <div class="option-label"><strong>1. Broadcast ticker</strong><span>One row, like a news crawl</span></div>
+    <div class="option-stage">
+<section class="ticker" aria-label="Snapshot">
+  <span class="tk-badge">By the numbers</span>
+  <div class="marquee">
+    <ul class="sr-only"><li>$2.5M+ media budget managed quarterly</li><li>1000% growth in social engagement</li><li>7 campaigns optimized with performance data</li><li>6 yrs in national TV production</li><li>BA Journalism, Cum Laude, Rutgers</li></ul>
+    <div class="track" aria-hidden="true" style="--dur: 32s">
+      <div class="group"><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg></span><span class="tk-num">$2.5M+</span><span class="tk-label">media budget managed quarterly</span></span><span class="tk-sep" aria-hidden="true"></span><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></span><span class="tk-num">1000%</span><span class="tk-label">growth in social engagement</span></span><span class="tk-sep" aria-hidden="true"></span><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span><span class="tk-num">7</span><span class="tk-label">campaigns optimized with performance data</span></span><span class="tk-sep" aria-hidden="true"></span><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg></span><span class="tk-num">6 yrs</span><span class="tk-label">in national TV production</span></span><span class="tk-sep" aria-hidden="true"></span><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path><path d="M22 10v6"></path></svg></span><span class="tk-num">BA</span><span class="tk-label">Journalism, Cum Laude, Rutgers</span></span><span class="tk-sep" aria-hidden="true"></span></div>
+      <div class="group"><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg></span><span class="tk-num">$2.5M+</span><span class="tk-label">media budget managed quarterly</span></span><span class="tk-sep" aria-hidden="true"></span><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></span><span class="tk-num">1000%</span><span class="tk-label">growth in social engagement</span></span><span class="tk-sep" aria-hidden="true"></span><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span><span class="tk-num">7</span><span class="tk-label">campaigns optimized with performance data</span></span><span class="tk-sep" aria-hidden="true"></span><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg></span><span class="tk-num">6 yrs</span><span class="tk-label">in national TV production</span></span><span class="tk-sep" aria-hidden="true"></span><span class="tk-item"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path><path d="M22 10v6"></path></svg></span><span class="tk-num">BA</span><span class="tk-label">Journalism, Cum Laude, Rutgers</span></span><span class="tk-sep" aria-hidden="true"></span></div>
+    </div>
+  </div>
+</section></div>
+    <p class="option-note">A single gold “By the numbers” tag with the stats crawling past, like the ticker on a news broadcast. Smallest of the three, so the clips come up sooner. Skills stay where they are in Experience.</p>
+  </article>
+    
+  <article class="option">
+    <div class="option-label"><strong>2. Double marquee</strong><span>Stats and skills, opposite directions</span></div>
+    <div class="option-stage">
+<section class="dmarq" aria-label="Snapshot and skills">
+  <div class="marquee">
+    <ul class="sr-only"><li>$2.5M+ media budget managed quarterly</li><li>1000% growth in social engagement</li><li>7 campaigns optimized with performance data</li><li>6 yrs in national TV production</li><li>BA Journalism, Cum Laude, Rutgers</li></ul>
+    <div class="track" aria-hidden="true" style="--dur: 40s">
+      <div class="group"><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg></span><div><div class="dm-num">$2.5M+</div><div class="dm-label">media budget managed quarterly</div></div></div><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></span><div><div class="dm-num">1000%</div><div class="dm-label">growth in social engagement</div></div></div><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span><div><div class="dm-num">7</div><div class="dm-label">campaigns optimized with performance data</div></div></div><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg></span><div><div class="dm-num">6 yrs</div><div class="dm-label">in national TV production</div></div></div><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path><path d="M22 10v6"></path></svg></span><div><div class="dm-num">BA</div><div class="dm-label">Journalism, Cum Laude, Rutgers</div></div></div></div>
+      <div class="group"><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg></span><div><div class="dm-num">$2.5M+</div><div class="dm-label">media budget managed quarterly</div></div></div><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></span><div><div class="dm-num">1000%</div><div class="dm-label">growth in social engagement</div></div></div><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span><div><div class="dm-num">7</div><div class="dm-label">campaigns optimized with performance data</div></div></div><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg></span><div><div class="dm-num">6 yrs</div><div class="dm-label">in national TV production</div></div></div><div class="dm-card box"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path><path d="M22 10v6"></path></svg></span><div><div class="dm-num">BA</div><div class="dm-label">Journalism, Cum Laude, Rutgers</div></div></div></div>
+    </div>
+  </div>
+  <div class="marquee">
+    <ul class="sr-only"><li>Media Buying</li><li>Scriptwriting</li><li>Client Management</li><li>Campaign Strategy</li><li>Nielsen</li><li>LexisNexis</li><li>Talent Coordination</li></ul>
+    <div class="track reverse" aria-hidden="true" style="--dur: 30s">
+      <div class="group"><span class="dm-chip">Media Buying</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Scriptwriting</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Client Management</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Campaign Strategy</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Nielsen</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">LexisNexis</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Talent Coordination</span><span class="dm-star" aria-hidden="true"></span></div>
+      <div class="group"><span class="dm-chip">Media Buying</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Scriptwriting</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Client Management</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Campaign Strategy</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Nielsen</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">LexisNexis</span><span class="dm-star" aria-hidden="true"></span><span class="dm-chip">Talent Coordination</span><span class="dm-star" aria-hidden="true"></span></div>
+    </div>
+  </div>
+</section></div>
+    <p class="option-note">Stat cards slide left on top while skills slide right underneath. The skills move out of the Experience section into this strip.</p>
+  </article>
+    
+  <article class="option">
+    <div class="option-label"><strong>3. Twin wheels</strong><span>Two slot-machine wheels that tick over</span></div>
+    <div class="option-stage">
+<section class="wheels" aria-label="Snapshot and skills">
+  <div class="wheel-card">
+    <p class="eyebrow">By the numbers</p>
+    <ul class="sr-only"><li>$2.5M+ media budget managed quarterly</li><li>1000% growth in social engagement</li><li>7 campaigns optimized with performance data</li><li>6 yrs in national TV production</li><li>BA Journalism, Cum Laude, Rutgers</li></ul>
+    <div class="wheel" aria-hidden="true" style="--row: 76px">
+      <div class="wh-col" style="animation: wheelStats 15s cubic-bezier(.6,0,.2,1) infinite"><div class="wh-row"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path><path d="M22 10v6"></path></svg></span><span class="wh-num">BA</span><span class="wh-label">Journalism, Cum Laude, Rutgers</span></div><div class="wh-row"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg></span><span class="wh-num">$2.5M+</span><span class="wh-label">media budget managed quarterly</span></div><div class="wh-row"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></span><span class="wh-num">1000%</span><span class="wh-label">growth in social engagement</span></div><div class="wh-row"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span><span class="wh-num">7</span><span class="wh-label">campaigns optimized with performance data</span></div><div class="wh-row"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg></span><span class="wh-num">6 yrs</span><span class="wh-label">in national TV production</span></div><div class="wh-row"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path><path d="M22 10v6"></path></svg></span><span class="wh-num">BA</span><span class="wh-label">Journalism, Cum Laude, Rutgers</span></div><div class="wh-row"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg></span><span class="wh-num">$2.5M+</span><span class="wh-label">media budget managed quarterly</span></div><div class="wh-row"><span class="stat-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></span><span class="wh-num">1000%</span><span class="wh-label">growth in social engagement</span></div></div>
+    </div>
+  </div>
+  <div class="wheel-card">
+    <p class="eyebrow">Skills &amp; tools</p>
+    <ul class="sr-only"><li>Media Buying</li><li>Scriptwriting</li><li>Client Management</li><li>Campaign Strategy</li><li>Nielsen</li><li>LexisNexis</li><li>Talent Coordination</li></ul>
+    <div class="wheel" aria-hidden="true" style="--row: 76px">
+      <div class="wh-col" style="animation: wheelSkills 17.5s cubic-bezier(.6,0,.2,1) infinite; animation-delay: -1.25s"><div class="wh-row wh-skill">Talent Coordination</div><div class="wh-row wh-skill">Media Buying</div><div class="wh-row wh-skill">Scriptwriting</div><div class="wh-row wh-skill">Client Management</div><div class="wh-row wh-skill">Campaign Strategy</div><div class="wh-row wh-skill">Nielsen</div><div class="wh-row wh-skill">LexisNexis</div><div class="wh-row wh-skill">Talent Coordination</div><div class="wh-row wh-skill">Media Buying</div><div class="wh-row wh-skill">Scriptwriting</div></div>
+    </div>
+  </div>
+</section></div>
+    <p class="option-note">Each wheel rolls to the next item every few seconds, like a slot machine or a scoreboard, with the current one lit in the middle. The two wheels move out of step. The skills move out of Experience into the right-hand wheel.</p>
+  </article>
+  </main>
+</div>
+</body>
+</html>
