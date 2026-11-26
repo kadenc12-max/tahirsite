@@ -441,46 +441,67 @@ a.pill { text-decoration: none; transition: border-color .2s; }
 a.pill:hover { color: var(--box-text); border-color: var(--accent); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-/* Skills: two wheels that tick over out of step */
+/* Skills: split-flap departure board showing related pairs */
 .skills { margin-top: 3.5rem; }
-.skills-label { margin: 0 0 1rem; font-size: 1rem; font-weight: 700; font-family: var(--body-font); }
-.wheels { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 1.25rem; }
-.wheel-card { padding: .75rem 1.25rem; border-radius: 20px; border: 1px solid var(--border); background-color: var(--surface); }
-.wheel {
-  --row: 64px;
-  position: relative;
-  height: calc(var(--row) * 3);
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
-          mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 70%, transparent);
+.board {
+  padding: 1.25rem 1.25rem 1.5rem;
+  border-radius: 20px;
+  background: #0b111c; /* stays dark in both themes, like a real board */
+  border: 1px solid #1f2d40;
+  box-shadow: inset 0 0 40px rgba(0,0,0,.5);
 }
-.wheel::before {
+.board-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 .9rem;
+  font-family: var(--body-font);
+  font-weight: 700;
+  font-size: .75rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #f5c451;
+}
+.board-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  color: #f8f3e6;
+  transition: opacity .25s ease;
+}
+.board-cat::before {
   content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: var(--row);
-  height: var(--row);
-  border-radius: 14px;
-  border: 1px solid var(--box-border);
-  background-color: var(--box-bg);
-  pointer-events: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f5c451;
+  box-shadow: 0 0 10px #f5c451;
+  animation: flicker 3s linear infinite;
 }
-.wh-col { position: relative; }
-.wh-row {
-  height: var(--row);
+.board-cat.is-changing { opacity: 0; }
+.board-rows { display: flex; flex-direction: column; gap: 8px; }
+.board-row { display: grid; grid-template-columns: repeat(var(--cols, 20), minmax(0, 1fr)); gap: 3px; }
+.board-row.next-skill { margin-top: 6px; }
+@media (max-width: 560px) {
+  .board { padding: 1rem .9rem 1.1rem; }
+  .board-rows { gap: 5px; }
+  .cell { font-size: 1.05rem; }
+}
+.cell {
+  aspect-ratio: 3 / 4;
   display: flex;
   align-items: center;
-  padding: 0 1rem;
-  font-family: var(--head-font);
-  font-weight: var(--head-weight);
-  font-size: 1.75rem;
-  letter-spacing: var(--head-track);
-  text-transform: var(--head-case);
-  white-space: nowrap;
+  justify-content: center;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #1d2636 0 49%, #0b111c 49% 51%, #161e2c 51%);
+  color: #f8f3e6;
+  font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  font-weight: 700;
+  font-size: clamp(.62rem, 2.6vw, 2rem);
+  line-height: 1;
 }
-@keyframes wheel4{0.00%,20.00%{transform:translateY(calc(var(--row) * 0))}25.00%,45.00%{transform:translateY(calc(var(--row) * -1))}50.00%,70.00%{transform:translateY(calc(var(--row) * -2))}75.00%,95.00%{transform:translateY(calc(var(--row) * -3))}100%{transform:translateY(calc(var(--row) * -4))}}
-@keyframes wheel3{0.00%,26.67%{transform:translateY(calc(var(--row) * 0))}33.33%,60.00%{transform:translateY(calc(var(--row) * -1))}66.67%,93.33%{transform:translateY(calc(var(--row) * -2))}100%{transform:translateY(calc(var(--row) * -3))}}
+.cell.flip { color: #f5c451; }
 
 /* ---------- Contact ---------- */
 .contact {
@@ -508,7 +529,6 @@ a:focus-visible, button:focus-visible, .reel:focus-visible {
 @media (max-width: 640px) {
   .tk-badge { padding: 0 .8rem; font-size: .7rem; max-width: 6.5rem; line-height: 1.3; }
   .tk-num { font-size: 1.5rem; }
-  .wh-row { font-size: 1.45rem; }
   .navlinks { order: 3; width: 100%; justify-content: space-between; gap: 1rem; padding-bottom: .75rem; }
   .headshot { width: 101px; height: 101px; }
   .hero { padding-top: 2.5rem; padding-bottom: 3.5rem; }
@@ -531,6 +551,5 @@ a:focus-visible, button:focus-visible, .reel:focus-visible {
   .group + .group { display: none; }
   .group { flex-wrap: wrap; row-gap: .75rem; }
   .marquee { -webkit-mask-image: none; mask-image: none; }
-  .wh-col { animation: none !important; }
-  .wheel { overflow-y: auto; -webkit-mask-image: none; mask-image: none; }
+  .board-cat::before { animation: none; }
 }
