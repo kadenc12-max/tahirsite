@@ -1,0 +1,100 @@
+{
+  "theme": {
+    "accent": "#f5c451",
+    "headingFont": "anton"
+  },
+  "meta": {
+    "title": "Tahir Russell – Media & Communications",
+    "description": "Tahir Russell — media producer and digital marketing strategist. Six years in national TV production plus data-driven media buying."
+  },
+  "name": "Tahir Russell",
+  "headshot": "headshot.jpg",
+  "hero": {
+    "eyebrow": "Media Producer & Digital Marketing Strategist",
+    "lede": "Six years behind the scenes of national television, plus the data-driven media buying to get a message seen.",
+    "primaryButton": "Watch the clips",
+    "secondaryButton": "Get in touch"
+  },
+  "stats": {
+    "label": "By the numbers",
+    "items": [
+      { "icon": "dollar", "value": "$2.5M+", "label": "media budget managed quarterly" },
+      { "icon": "trend", "value": "1000%", "label": "growth in social engagement" },
+      { "icon": "target", "value": "7", "label": "campaigns optimized with performance data" },
+      { "icon": "tv", "value": "6 yrs", "label": "in national TV production" },
+      { "icon": "cap", "value": "BA", "label": "Journalism, Cum Laude, Rutgers" }
+    ]
+  },
+  "experience": {
+    "eyebrow": "Experience",
+    "heading": "Two sides of media.",
+    "jobs": [
+      {
+        "track": "TV Production",
+        "company": "Paramount",
+        "description": "Scripted segments, booked talent and developed audience strategies for national TV.",
+        "show": "The Drew Barrymore Show",
+        "clips": [
+          { "title": "Segment 1", "youtube": "woIY6dUXHRg" },
+          { "title": "Segment 2", "youtube": "W-D25jghhFQ" },
+          { "title": "Segment 3", "youtube": "zm8-oU9hZq0" }
+        ]
+      },
+      {
+        "track": "TV Production",
+        "company": "Endemol Shine & The New York Post",
+        "description": "Produced entertainment news, interviewed celebrities and launched Fashion Friday.",
+        "show": "Page Six TV",
+        "clips": [
+          { "title": "Segment 1", "youtube": "HyPi77kyDO4" },
+          { "title": "Segment 2", "youtube": "_fjKxtSasKU" },
+          { "title": "Segment 3", "youtube": "Rru-BwznOI0" }
+        ]
+      },
+      {
+        "track": "Media Strategy",
+        "company": "Zenith Media",
+        "description": "Ran campaigns across platforms with strong ROI on a $2.5M budget.",
+        "show": "",
+        "clips": []
+      },
+      {
+        "track": "Media Strategy",
+        "company": "Black Sheep Bar",
+        "description": "Led brand growth with a social strategy that grew followers 1000%.",
+        "show": "",
+        "clips": []
+      }
+    ]
+  },
+  "skills": {
+    "heading": "Skills & tools",
+    "pairs": [
+      { "theme": "Media Buying", "first": "Digital Media Buying", "second": "Paid Media Strategy" },
+      { "theme": "Planning", "first": "Media Planning", "second": "Audience Targeting" },
+      { "theme": "Performance", "first": "Campaign Performance", "second": "ROI Measurement" },
+      { "theme": "Measurement", "first": "Nielsen", "second": "Comscore" },
+      { "theme": "Research", "first": "Market Research", "second": "LexisNexis" },
+      { "theme": "Storytelling", "first": "Story Research", "second": "Scriptwriting" },
+      { "theme": "Production", "first": "Segment Production", "second": "Content Coordination" },
+      { "theme": "Operations", "first": "Production Oversight", "second": "Vendor Coordination" },
+      { "theme": "Talent", "first": "Talent Management", "second": "Talent Coordination" },
+      { "theme": "Clients", "first": "Client Management", "second": "CRM Software" },
+      { "theme": "Relationships", "first": "Negotiation", "second": "Retention Strategies" }
+    ]
+  },
+  "about": {
+    "eyebrow": "About",
+    "heading": "From the control room to the campaign.",
+    "paragraphs": [
+      "I'm a media professional with well-rounded experience in both entertainment production and digital media buying.",
+      "Throughout my career, I've been part of major productions including talk shows, performances, experiential events and pilot presentations.",
+      "The knowledge and experience I've gained is invaluable. Let's connect."
+    ]
+  },
+  "contact": {
+    "heading": "Let's make something.",
+    "lede": "Production, media strategy or both. My inbox is open.",
+    "email": "tahir.russell@gmail.com"
+  }
+}

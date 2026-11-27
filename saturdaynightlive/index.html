@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Site Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&amp;family=Anton&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/saturdaynightlive/editor.css">
+  <script type="module" src="/saturdaynightlive/editor.js"></script>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <main id="login" class="login" hidden>
+    <form id="login-form" class="login-card">
+      <p class="login-kicker">Backstage</p>
+      <h1 class="login-title">Site editor</h1>
+      <label class="field">
+        <span class="field-label">Password</span>
+        <input id="password" type="password" autocomplete="current-password" required>
+      </label>
+      <p id="login-error" class="msg msg-error" role="alert" hidden></p>
+      <button class="btn btn-primary" type="submit">Log in</button>
+    </form>
+  </main>
+
+  <!-- EDITOR -->
+  <div id="editor" class="editor" hidden>
+    <header class="bar">
+      <div class="bar-left">
+        <span class="bar-title">Site editor</span>
+        <span id="status" class="status" aria-live="polite"></span>
+      </div>
+      <div class="bar-right">
+        <div class="seg" role="group" aria-label="Preview size">
+          <button type="button" class="seg-btn is-on" data-device="desktop">Desktop</button>
+          <button type="button" class="seg-btn" data-device="phone">Phone</button>
+        </div>
+        <a class="btn btn-ghost" href="/" target="_blank" rel="noopener">View site</a>
+        <button id="logout" class="btn btn-ghost" type="button">Log out</button>
+        <button id="save" class="btn btn-primary" type="button" disabled>Save</button>
+      </div>
+    </header>
+
+    <div class="mobile-tabs" role="tablist" aria-label="Editor view">
+      <button type="button" class="tab is-on" data-view="form" role="tab" aria-selected="true">Edit</button>
+      <button type="button" class="tab" data-view="preview" role="tab" aria-selected="false">Preview</button>
+    </div>
+
+    <div class="panes">
+      <section class="form-pane" aria-label="Edit content">
+        <div id="notice" class="notice" role="status" hidden></div>
+        <form id="form" novalidate></form>
+      </section>
+      <section class="preview-pane" aria-label="Live preview">
+        <div class="preview-frame" data-device="desktop">
+          <iframe id="preview" title="Live preview of the site" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <noscript><p class="login">This editor needs JavaScript turned on.</p></noscript>
+</body>
+</html>

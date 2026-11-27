@@ -1,0 +1,10 @@
+{
+  "name": "tahirsite",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "rebuild": "node scripts/build.mjs",
+    "dev": "node scripts/dev-server.mjs"
+  }
+}
